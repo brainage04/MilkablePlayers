@@ -33,7 +33,7 @@ public class MixinEntity {
 
                 ItemStack stackToExchange = Items.MILK_BUCKET.getDefaultStack();
                 stackToExchange.applyComponentsFrom(ComponentMap.builder()
-                        .add(DataComponentTypes.ITEM_NAME, Text.literal("Bucket of %s's Milk".formatted(otherPlayer.getNameForScoreboard())))
+                        .add(DataComponentTypes.ITEM_NAME, Text.literal("%s's Milk".formatted(otherPlayer.getNameForScoreboard())))
                         .build());
 
                 ItemStack itemStack2 = ItemUsage.exchangeStack(
