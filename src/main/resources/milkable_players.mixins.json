@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "io.github.brainage04.milkable_players.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ExampleMixin",
+    "MixinEntity"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
