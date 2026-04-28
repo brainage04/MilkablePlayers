@@ -1,16 +1,17 @@
 package io.github.brainage04.milkable_players.mixin;
 
-import net.minecraft.component.ComponentMap;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsage;
-import net.minecraft.item.Items;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,29 +21,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinEntity {
     @Inject(
             at = @At("HEAD"),
-            method = "Lnet/minecraft/entity/Entity;interact(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;"
+            method = "interact"
     )
-    private void interactInjected(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+    private void interactInjected(Player player, InteractionHand hand, Vec3 hitPos, CallbackInfoReturnable<InteractionResult> cir) {
         Entity thisEntity = (Entity)(Object)this;
 
-        if (thisEntity instanceof PlayerEntity otherPlayer) {
-            ItemStack itemStack = player.getStackInHand(hand);
+        if (thisEntity instanceof Player otherPlayer) {
+            ItemStack itemStack = player.getItemInHand(hand);
 
-            if (itemStack.isOf(Items.BUCKET)) {
-                player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
+            if (itemStack.getItem() == Items.BUCKET) {
+                player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
 
-                ItemStack stackToExchange = Items.MILK_BUCKET.getDefaultStack();
-                stackToExchange.applyComponentsFrom(ComponentMap.builder()
-                        .add(DataComponentTypes.ITEM_NAME, Text.literal("%s's Milk".formatted(otherPlayer.getNameForScoreboard())))
+                ItemStack stackToExchange = Items.MILK_BUCKET.getDefaultInstance();
+                stackToExchange.applyComponents(DataComponentMap.builder()
+                        .set(DataComponents.ITEM_NAME, Component.literal("%s's Milk".formatted(otherPlayer.getScoreboardName())))
                         .build());
 
-                ItemStack itemStack2 = ItemUsage.exchangeStack(
+                ItemStack itemStack2 = ItemUtils.createFilledResult(
                         itemStack,
                         player,
                         stackToExchange
                 );
 
-                player.setStackInHand(hand, itemStack2);
+                player.setItemInHand(hand, itemStack2);
             }
         }
     }

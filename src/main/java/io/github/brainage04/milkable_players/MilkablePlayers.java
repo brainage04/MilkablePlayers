@@ -1,10 +1,6 @@
 package io.github.brainage04.milkable_players;
 
 import net.fabricmc.api.ModInitializer;
-
-import net.minecraft.client.gui.screen.ingame.AnvilScreen;
-import net.minecraft.item.Items;
-import net.minecraft.server.network.ServerPlayerEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +11,8 @@ public class MilkablePlayers implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("%s initialising...".formatted(MOD_NAME));
+		LOGGER.info("{} initialising...", MOD_NAME);
 
-		LOGGER.info("%s initialised.".formatted(MOD_NAME));
+		LOGGER.info("{} initialised.", MOD_NAME);
 	}
 }
