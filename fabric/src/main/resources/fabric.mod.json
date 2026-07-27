@@ -4,9 +4,7 @@
 	"version": "${mod_version}",
 	"name": "${mod_name}",
 	"description": "A mod that lets players be milked with buckets.",
-	"authors": [
-		"brainage04"
-	],
+	"authors": ["brainage04"],
 	"contact": {
 		"homepage": "https://github.com/brainage04/MilkablePlayers",
 		"sources": "https://github.com/brainage04/MilkablePlayers"
@@ -14,14 +12,7 @@
 	"license": "MIT",
 	"icon": "assets/milkable_players/icon.png",
 	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"io.github.brainage04.milkable_players.MilkablePlayers"
-		]
-	},
-	"mixins": [
-		"milkable_players.mixins.json"
-	],
+	"entrypoints": { "main": ["io.github.brainage04.milkable_players.fabric.MilkablePlayersFabric"] },
 	"depends": {
 		"fabricloader": ">=${loader_version}",
 		"minecraft": "~${minecraft_version}",

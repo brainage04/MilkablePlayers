@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[11,)"
+license="MIT"
+
+[[mods]]
+modId="milkable_players"
+version="${version}"
+displayName="Milkable Players"
+description='''A mod that lets players be milked with buckets.'''
+authors="brainage04"
+logoFile="assets/milkable_players/icon.png"
+
+[[dependencies.milkable_players]]
+modId="neoforge"
+type="required"
+versionRange="[${neoforge_version},)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.milkable_players]]
+modId="minecraft"
+type="required"
+versionRange="[${minecraft_version}]"
+ordering="NONE"
+side="BOTH"
