@@ -42,6 +42,13 @@ workspaceDependencies {
 	}
 }
 
+repositories {
+	maven {
+		url = uri('https://api.modrinth.com/maven')
+		content { includeGroup 'maven.modrinth' }
+	}
+}
+
 modPublishing {
 	github.repository.set('brainage04/MilkablePlayers')
 	licenseFile.set(rootProject.layout.projectDirectory.file('LICENSE'))
@@ -51,11 +58,13 @@ modPublishing {
 
 productionGameTests {
 	includeServer = true
+	runtimeModDependencies.add("maven.modrinth:carpet:${project.carpet_version}")
 }
 
 dependencies {
 	common(project(':common')) { transitive = false }
 	implementation "io.github.brainage04:fabricmoddingconventions:${project.fabricmoddingconventions_version}"
+	runtimeOnly "maven.modrinth:carpet:${project.carpet_version}"
 }
 
 tasks.named('jar') {
