@@ -33,6 +33,18 @@ subprojects {
 	}
 }
 
+tasks.register('runClientGameTest') {
+	group = 'verification'
+	description = 'Runs the Fabric spectator recording GameTest without recording.'
+	dependsOn ':fabric:runProductionClientGameTest'
+}
+
+tasks.register('recordClientGameTest') {
+	group = 'verification'
+	description = 'Records the Fabric spectator GameTest.'
+	dependsOn ':fabric:recordClientGameTest'
+}
+
 tasks.register('runNeoForgeGameTests') {
 	group = 'verification'
 	description = 'Runs the NeoForge server GameTest suite.'

@@ -1,5 +1,6 @@
 plugins {
 	id 'io.github.brainage04.fabric-mod-conventions' version "${fabricmoddingconventions_version}"
+	id 'io.github.brainage04.client-gametest-recorder' version "${fabricmoddingconventions_version}"
 	id 'io.github.brainage04.production-gametests' version "${fabricmoddingconventions_version}"
 	id 'io.github.brainage04.workspace-dependencies' version "${fabricmoddingconventions_version}"
 	id 'io.github.brainage04.mod-publishing' version "${fabricmoddingconventions_version}"
@@ -52,12 +53,31 @@ modPublishing {
 	github.repository.set('brainage04/MilkablePlayers')
 	licenseFile.set(rootProject.layout.projectDirectory.file('LICENSE'))
 	modrinth.projectBody.set(rootProject.layout.projectDirectory.file('README.md'))
-	modrinth.iconFile.set(rootProject.layout.projectDirectory.file('src/main/resources/assets/milkable_players/icon.png'))
+	modrinth.iconFile.set(rootProject.layout.projectDirectory.file('common/src/main/resources/assets/milkable_players/icon.png'))
 }
 
 productionGameTests {
 	includeServer = true
+	includeClient.set(true)
+	clientUseXvfb.set(providers.environmentVariable('GTR_RECORDING_MANAGED_XVFB').map { !it.toBoolean() }.orElse(true))
 	runtimeModDependencies.add("maven.modrinth:carpet:${project.carpet_version}")
+}
+
+clientGameTestRecorder {
+	runDir.set(layout.buildDirectory.dir('run/productionClientGameTest'))
+	guiScale.set('2')
+}
+
+tasks.named('recordClientGameTest') {
+	runTaskName.set('runProductionClientGameTest')
+}
+
+tasks.named('prepareClientGameTestRun') {
+	mustRunAfter('prepareProductionGameTestRuns')
+}
+
+tasks.matching { it.name == 'runProductionClientGameTest' }.configureEach {
+	dependsOn('prepareClientGameTestRun')
 }
 
 dependencies {
